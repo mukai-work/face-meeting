@@ -4,53 +4,115 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>両家顔合わせのしおり</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;700&family=Noto+Sans+JP:wght@400;500&display=swap" rel="stylesheet" />
   <style>
+    :root {
+      --accent: #d4af37;
+      --bg-start: #fffaf3;
+      --bg-end: #f5faff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-        background: linear-gradient(to bottom, #fffaf3, #f5faff);
-        background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
-        background-repeat: repeat;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-        color: #333;
-        padding: 1.5em;
-        max-width: 500px;
-        margin: 0 auto;
+      background: linear-gradient(var(--bg-start), var(--bg-end));
+      background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+      font-family: 'Noto Sans JP', -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      color: #333;
+      padding: 1.5em;
+      max-width: 760px;
+      margin: 0 auto;
+      scroll-behavior: smooth;
+    }
+
+    .fade-section {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-section.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     header {
       text-align: center;
-      margin-bottom: 2em;
-      padding: 1em;
-      background-color: #f8f8f8;
-      border: 1px solid #ddd;
-      border-radius: 8px;
+      margin-bottom: 3em;
+      padding: 2.4em 1em 2.8em;
+      border-radius: 12px;
+      background: #ffffffee;
+      border: 1px solid #eee;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.04);
+      position: relative;
+      overflow: hidden;
     }
 
-    h1 {
-      font-size: 1.6em;
-      margin-bottom: 0.3em;
+    header::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      height: 4px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, transparent 0%, var(--accent) 20%, var(--accent) 80%, transparent 100%);
+    }
+
+    header h1 {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 2rem;
+      margin-bottom: 0.4em;
+      letter-spacing: 0.04em;
+      color: #2c2c2c;
+      position: relative;
+    }
+
+    header h1::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(120deg, transparent 0%, rgba(212, 175, 55, 0.5) 50%, transparent 100%);
+      mix-blend-mode: overlay;
+      animation: shine 6s linear infinite;
+    }
+
+    @keyframes shine {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
     }
 
     .sub {
       color: #666;
-      font-size: 1em;
+      font-size: 1rem;
+      line-height: 1.5;
     }
 
     section {
-      margin-bottom: 2em;
+      margin-bottom: 3em;
     }
 
     h2 {
-      font-size: 1.2em;
-      margin-bottom: 0.5em;
-      border-left: 4px solid #333;
-      padding-left: 0.5em;
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.4rem;
+      margin-bottom: 0.7em;
+      padding-left: 0.7em;
+      border-left: 5px solid var(--accent);
     }
 
     h3 {
-      font-size: 1.1em;
-      margin-bottom: 0.5em;
-      border-left: 6px double #333;
-      padding-left: 0.5em;
+      font-size: 1.1rem;
+      margin-bottom: 0.6em;
+      padding-left: 0.7em;
+      border-left: 3px dashed var(--accent);
     }
 
     ul {
@@ -59,83 +121,93 @@
     }
 
     li {
-      padding: 0.4em 0;
-      border-bottom: 1px solid #eee;
+      padding: 0.5em 0;
+      border-bottom: 1px dashed #e7e7e7;
     }
 
     .family-grid {
       display: flex;
       flex-wrap: wrap;
       gap: 1em;
-      justify-content: space-between;
     }
 
     .family-member {
       flex: 1 1 calc(50% - 0.5em);
       max-width: calc(50% - 0.5em);
-      background-color: #fff;
+      background: #fff;
       border: 1px solid #ddd;
-      border-radius: 6px;
-      padding: 0.8em;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-      box-sizing: border-box;
+      border-radius: 8px;
+      padding: 0.9em 0.8em;
+      box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    @media (max-width: 480px) {
+    .family-member:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    @media (max-width: 560px) {
       .family-member {
         flex: 1 1 100%;
         max-width: 100%;
       }
     }
 
-    .family-member h3 {
+    .family-member h4 {
       margin: 0.2em 0;
-      font-size: 1em;
+      font-size: 1rem;
     }
 
     .family-member p {
-      font-size: 0.85em;
       margin: 0.2em 0;
+      font-size: 0.85rem;
     }
 
     .profile-box {
-      padding: 1em;
-      border-radius: 6px;
+      padding: 1em 1.2em;
+      border-radius: 8px;
       margin-bottom: 1em;
+      position: relative;
+      overflow: hidden;
     }
 
-    .groom {
-      background-color: rgba(224, 242, 255, 0.4);
+    .profile-box::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 0%, var(--accent) 30%, transparent 60%);
+      opacity: 0.08;
     }
 
-    .bride {
-      background-color: rgba(255, 224, 230, 0.4);
-    }
-
-    .history {
-      background-color: rgba(255, 249, 204, 0.4);
-    }
+    .groom { background: rgba(224, 242, 255, 0.45); }
+    .bride { background: rgba(255, 224, 230, 0.45); }
+    .history { background: rgba(255, 249, 204, 0.45); }
 
     .footer {
-      font-size: 0.8em;
+      font-size: 0.8rem;
       text-align: center;
-      color: #aaa;
-      margin-top: 3em;
+      color: #999;
+      margin-top: 4em;
     }
   </style>
 </head>
 <body>
-  <header>
+  <header class="fade-section visible">
     <h1>両家顔合わせのしおり</h1>
-    <div class="sub">2025年6月29日（日）<br>春帆楼 あべのハルカス店<br>向井家・塚本家</div>
+    <div class="sub">
+      2025年6月29日（日）<br>
+      春帆楼 あべのハルカス店<br>
+      向井家・塚本家
+    </div>
   </header>
 
-  <section>
+  <section class="fade-section">
     <h2>ご挨拶</h2>
-    <p>本日はお忙しい中お集まりいただき、ありがとうございます。お互いの家族が親しくなれる良い機会になれば幸いです。リラックスして、会話と食事をお楽しみいただければ幸いです。</p>
+    <p>本日はお忙しい中お集まりいただき、ありがとうございます。お互いの家族が親しくなれる良い機会になれば幸いです。リラックスして、会話と食事をお楽しみください。</p>
   </section>
 
-  <section>
+  <section class="fade-section">
     <h2>当日のスケジュール</h2>
     <ul>
       <li>11:00　集合・ご挨拶</li>
@@ -144,13 +216,12 @@
       <li>12:50　記念撮影</li>
       <li>13:00　お開き予定</li>
     </ul>
-    <p style="font-size: 0.9em; color: #666;">※お食事のあと、スタッフの方に撮影をお願いする予定です。</p>
+    <p style="font-size: .9em; color: #666;">※お食事のあと、スタッフの方に撮影をお願いする予定です。</p>
   </section>
 
-  <section>
+  <section class="fade-section">
     <h2>当日のコース内容</h2>
     <p><strong>「季節会席 美味（みに）」コース</strong></p>
-    <p>旬の食材を使った季節の会席料理をお楽しみいただきます。</p>
     <ul>
       <li>【食前酒】梅酒</li>
       <li>【先　付】小鉢</li>
@@ -165,13 +236,13 @@
     </ul>
   </section>
 
-  <section>
+  <section class="fade-section">
     <h2>新郎新婦プロフィール</h2>
     <div class="profile-box groom">
       <strong>新郎：健悟</strong><br>
       ・誕生日：1999/03/18<br>
       ・星座：うお座<br>
-      ・血液型：O型<small>父AB×母Oですが数%の確率でOが生まれるので実子です</small><br>
+      ・血液型：O型<br>
       ・職業：個人事業主(システムエンジニア)<br>
       ・趣味：ゲーム、サウナ<br>
       ・好きな食べ物：焼き鳥(皮)、ラーメン
@@ -183,85 +254,100 @@
       ・血液型：A型<br>
       ・職業：水上にて営業<br>
       ・趣味：ビーズ作り、ゲーム<br>
-      ・好きな食べ物：
+      ・好きな食べ物：オムライス、ケーキ
     </div>
     <div class="profile-box history">
       <strong>馴れ初め</strong><br>
-      小学校5年生の時に、美乃里さんが同じクラスに転校してきたのが始まりです。同じ塾に通い、高校生、社会人になってからも連絡を取っていました。
+      小学校5年生の時に美乃里さんが転校してきたのが始まり。同じ塾に通い、高校・社会人になっても連絡を取り続けました。
     </div>
   </section>
 
-  <section>
+  <section class="fade-section">
     <h2>両家の紹介</h2>
-    <h3>向井家</h2>
+    <h3>向井家</h3>
     <div class="family-grid">
       <div class="family-member">
-        <h4>父：孝(たかし)</h4>
-        <p>誕生日：1952/03/03</p>
-        <p>血液型：AB型</p>
+        <h4>父：孝</h4>
+        <p>1952/03/03</p>
+        <p>AB型</p>
         <p>趣味：テレビ鑑賞、小旅行</p>
       </div>
       <div class="family-member">
-        <h4>母：洋美(ひろみ)</h4>
-        <p>誕生日：1964/12/15</p>
-        <p>血液型：O型</p>
+        <h4>母：洋美</h4>
+        <p>1964/12/15</p>
+        <p>O型</p>
         <p>趣味：テレビ鑑賞、料理、旅行</p>
       </div>
       <div class="family-member">
-        <h4>弟：佑記(ゆうき)</h4>
-        <p>誕生日：2000/07/01</p>
-        <p>血液型：A型</p>
+        <h4>弟：佑記</h4>
+        <p>2000/07/01</p>
+        <p>A型</p>
         <p>趣味：麻雀</p>
       </div>
     </div>
-    <h3>塚本家</h2>
+
+    <h3>塚本家</h3>
     <div class="family-grid">
       <div class="family-member">
-        <h4>父：剛司(こうじ)</h4>
-        <p>誕生日：1970/03/09</p>
-        <p>血液型：A型</p>
-        <p>趣味：サウナ全般、公園を走る</p>
+        <h4>父：剛司</h4>
+        <p>1970/03/09</p>
+        <p>A型</p>
+        <p>趣味：サウナ、公園ラン</p>
       </div>
       <div class="family-member">
-        <h4>母：可奈江(かなえ)</h4>
-        <p>誕生日：1972/02/22</p>
-        <p>血液型：A型</p>
-        <p>趣味：手芸(手で芸をする)全般、韓国ドラマ鑑賞</p>
+        <h4>母：可奈江</h4>
+        <p>1972/02/22</p>
+        <p>A型</p>
+        <p>趣味：手芸、韓国ドラマ</p>
       </div>
       <div class="family-member">
-        <h4>妹：枝央里(しおり)</h4>
-        <p>誕生日：2001/01/16</p>
-        <p>血液型：A型</p>
+        <h4>妹：枝央里</h4>
+        <p>2001/01/16</p>
+        <p>A型</p>
         <p>趣味：睡眠</p>
       </div>
       <div class="family-member">
-        <h4>レイリー</h4>
-        <p>誕生日：2014/09/20</p>
-        <p>血液型：A型</p>
+        <h4>シェルティー：レイリー</h4>
+        <p>2014/09/20</p>
         <p>趣味：お母さんの後追い</p>
       </div>
     </div>
   </section>
 
-  <section>
+  <section class="fade-section">
     <h2>今後の予定</h2>
     <ul>
       <li>入籍予定日：7月7日</li>
-      <li>結婚式：したい（時期は未定）</li>
+      <li>結婚式：未定</li>
     </ul>
   </section>
 
-  <section>
+  <section class="fade-section">
     <h2>ご案内</h2>
-    <p>お会計の心配はご無用です。（ご招待です）<br />
-    当日の写真は後ほどお送りします。</p>
+    <p>お会計の心配はご無用です。（ご招待です）<br>当日の写真は後ほどお送りします。</p>
   </section>
 
-  <section>
+  <section class="fade-section">
     <h2>結びのご挨拶</h2>
     <p>本日はどうぞよろしくお願いいたします。<br>良い時間をお過ごしください。</p>
   </section>
 
   <div class="footer">© 2025 Mukai Kengo</div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.fade-section').forEach(section => {
+        observer.observe(section);
+      });
+    });
+  </script>
 </body>
 </html>
